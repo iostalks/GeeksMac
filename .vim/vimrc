@@ -1,0 +1,3 @@
+runtime plugin.vim
+runtime general.vim
+runtime hotkey.vim

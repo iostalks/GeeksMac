@@ -1,0 +1,714 @@
+" ==========================================
+" bundle 插件管理和配置项
+" ==========================================
+
+"------------------------------------------- begin of configs --------------------------------------------
+
+" 非兼容vi模式。去掉讨厌的有关vi一致性模式，避免以前版本的一些bug和局限
+
+" ################### 插件管理 ###################
+
+" ----------------------------------------------------------------------------
+" 使用 vim-plug 管理插件
+" vim plugin bundle control, command model
+" ----------------------------------------------------------------------------
+
+" 插件列表开始位置
+call plug#begin('~/.vim/bundle')
+
+" 代码格式化
+" https://github.com/prettier/vim-prettier
+Plug 'prettier/vim-prettier'
+
+" 移动光标到插件名上, 使用'#'快速跳转到每个插件的配置处
+
+" 自动执行结果
+Plug 'metakirby5/codi.vim'
+
+" 语法检测
+" https://github.com/w0rp/ale#usage-symbol-search
+Plug 'w0rp/ale'
+
+" 代码片段快速插入 (snippets中,是代码片段资源,需要学习)
+" Snippets are separated from the engine. Add this if you want them:
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
+
+" 代码自动补全
+" 重启 :YcmRestartServer
+Plug 'Valloric/YouCompleteMe'
+
+" 自动补全单引号，双引号等
+Plug 'Raimondi/delimitMate'
+
+" 自动补全html/xml标签
+Plug 'alvan/vim-closetag'
+
+" 快速注释
+Plug 'scrooloose/nerdcommenter'
+
+" 快速加入修改环绕字符
+" csiw
+" ysiw( add(
+Plug 'tpope/vim-surround'
+
+" trailingwhitespace
+" 快速去行尾空格 [, + <Space>]
+Plug 'bronson/vim-trailing-whitespace'
+
+" easyalign
+" 快速赋值语句对齐
+" Plug 'junegunn/vim-easy-align'
+
+" quick movement
+"更高效的移动 [,, + w/fx/h/j/k/l]
+ Plug 'Lokaltog/vim-easymotion'
+
+" quickscope
+" 高亮单词首字母
+Plug 'unblevable/quick-scope'
+
+Plug 'vim-scripts/matchit.zip'
+" signature
+" m[a-zA-Z] add mark
+" '[a-zA-Z] go to mark
+" m<Space>  del all marks
+" m/        list all marks
+" m.        add new mark just follow previous mark
+" Plug 'kshenoy/vim-signature'
+
+" quick selection and edit
+" expandregion
+" 选中区块
+" Plug 'terryma/vim-expand-region'
+" 多光标选中编辑
+" multiplecursors
+" Plug 'terryma/vim-multiple-cursors'
+
+" 文件搜索
+" change to https://github.com/ctrlpvim/ctrlp.vim
+Plug 'ctrlpvim/ctrlp.vim' | Plug 'tacahiroy/ctrlp-funky'
+
+" ctrlsf
+" 类似sublimetext的搜索
+" In CtrlSF window:
+" 回车/o, 打开
+" t       在tab中打开(建议)
+" T - Lkie t but focus CtrlSF window instead of opened new tab.
+" q - Quit CtrlSF window.
+Plug 'dyng/ctrlsf.vim'
+
+" incsearch
+" Plug 'haya14busa/incsearch.vim'
+" map /  <Plug>(incsearch-forward)
+" map ?  <Plug>(incsearch-backward)
+" map g/ <Plug>(incsearch-stay)
+
+" quick run
+" quickrun
+" Plug 'thinca/vim-quickrun'
+
+" git
+" fugitive
+Plug 'tpope/vim-fugitive'
+" gitgutter
+" Plug 'airblade/vim-gitgutter'
+
+" gundo
+" edit history, 可以查看回到某个历史状态
+" Plug 'sjl/gundo.vim'
+
+" 状态栏增强展示
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+
+" 彩色成对的字符
+Plug 'kien/rainbow_parentheses.vim'
+
+" 主题
+Plug 'altercation/vim-colors-solarized'
+"https://github.com/morhetz/gruvbox
+Plug 'morhetz/gruvbox'
+" Plug 'tomasr/molokai'
+
+" 导航栏
+Plug 'scrooloose/nerdtree' | Plug 'jistr/vim-nerdtree-tabs'
+" 导航栏显示 git 状态
+Plug 'Xuyuanp/nerdtree-git-plugin'
+" ctrlspace
+Plug 'vim-ctrlspace/vim-ctrlspace'
+" tagbar
+" Plug 'majutsushi/tagbar'
+
+" text object
+" 支持自定义文本对象
+Plug 'kana/vim-textobj-user'
+" 增加行文本对象: l   dal yal cil
+Plug 'kana/vim-textobj-line'
+" 增加文件文本对象: e   dae yae cie
+Plug 'kana/vim-textobj-entire'
+" 增加缩进文本对象: i   dai yai cii - 相同缩进属于同一块
+Plug 'kana/vim-textobj-indent'
+
+Plug 'christoomey/vim-tmux-navigator'
+
+" markdown 语法？
+Plug 'plasticboy/vim-markdown', {'for': 'md'}
+
+" js 语法和缩进增强
+" https://github.com/mxw/vim-jsx
+Plug 'pangloss/vim-javascript'
+
+" jsx 语法和缩进增强
+" https://github.com/pangloss/vim-javascript
+Plug 'mxw/vim-jsx'
+
+Plug 'elzr/vim-json', {'for': 'json'}
+
+" import JS
+Plug 'ludovicchabant/vim-gutentags'
+Plug 'kristijanhusak/vim-js-file-import', {'do': 'npm install'}
+
+" Plug 'nathanaelkane/vim-indent-guides'
+let g:indent_guides_start_level = 2
+let g:indent_guides_guide_size = 1
+let g:indent_guides_auto_colors = 1
+
+call plug#end()
+
+" ################### 基础 ######################
+
+" prettier {{{
+    " noremap <Leader>m :PrettierAsync
+    let g:prettier#exec_cmd_async = 1
+    let g:prettier#config#tab_width = 4
+" }}}
+
+
+" ale {{{
+if has_key(g:plugs, 'ale')
+" pip install flake8
+" npm install -g eslint eslint-plugin-standard eslint-plugin-promise eslint-config-standard
+" npm install -g eslint-plugin-import eslint-plugin-node eslint-plugin-html babel-eslint
+let g:ale_linters = {
+\   'python': ['flake8'],
+\   'javascript': ['eslint'],
+\}
+
+" E501 -> 120 chars
+let g:ale_python_flake8_args="--ignore=E114,E116,E131 --max-line-length=120"
+
+let g:ale_sign_error = '✘'
+let g:ale_sign_warning = '▲'
+
+let g:ale_statusline_format = ['⨉ %d', '⚠ %d', '⬥ ok']
+let g:ale_echo_msg_error_str = 'E'
+let g:ale_echo_msg_warning_str = 'W'
+let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+
+nmap <silent> <Leader>ep <Plug>(ale_previous_wrap)
+nmap <silent> <Leader>en <Plug>(ale_next_wrap)
+
+nnoremap <silent> <Leader>ec :ALEToggle<CR>
+
+" troggle quickfix list
+function! ToggleErrors()
+	let old_last_winnr = winnr('$')
+	lclose
+	if old_last_winnr == winnr('$')
+		" Nothing was closed, open syntastic_error location panel
+		lopen
+	endif
+endfunction
+nnoremap <Leader>s :call ToggleErrors()<cr>
+
+let g:ale_set_highlights = 1
+highlight clear ALEErrorSign
+highlight clear ALEWarningSign
+endif
+
+" }}}
+
+" ################### 自动补全 ###################
+"
+" YouCompleteMe {{{
+let g:ycm_key_list_select_completion = ['<Down>']
+let g:ycm_key_list_previous_completion = ['<Up>']
+" let g:ycm_complete_in_comments = 1  "在注释输入中也能补全
+let g:ycm_complete_in_strings = 1   "在字符串输入中也能补全
+let g:ycm_use_ultisnips_completer = 1 "提示UltiSnips
+let g:ycm_collect_identifiers_from_comments_and_strings = 1   "注释和字符串中的文字也会被收入补全
+let g:ycm_collect_identifiers_from_tags_files = 1
+" 开启语法关键字补全
+let g:ycm_seed_identifiers_with_syntax=1
+" 回车作为选中
+let g:ycm_key_list_stop_completion = ['<CR>']
+
+"let g:ycm_seed_identifiers_with_syntax=1   "语言关键字补全, 不过python关键字都很短，所以，需要的自己打开
+
+" 跳转到定义处, 分屏打开
+let g:ycm_goto_buffer_command = 'horizontal-split'
+let g:ycm_register_as_syntastic_checker = 0
+" nnoremap <leader>jd :YcmCompleter GoToDefinition<CR>
+nnoremap gd :YcmCompleter GoToDefinitionElseDeclaration<CR>
+" nnoremap <leader>gd :YcmCompleter GoToDeclaration<CR>
+
+" 引入，可以补全系统，以及python的第三方包 针对新老版本YCM做了兼容
+" old version
+if !empty(glob("~/.vim/bundle/YouCompleteMe/cpp/ycm/.ycm_extra_conf.py"))
+	let g:ycm_global_ycm_extra_conf = "~/.vim/bundle/YouCompleteMe/cpp/ycm/.ycm_extra_conf.py"
+endif
+" new version
+if !empty(glob("~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py"))
+	let g:ycm_global_ycm_extra_conf = "~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py"
+endif
+
+" 直接触发自动补全 insert模式下
+" let g:ycm_key_invoke_completion = '<C-Space>'
+" 黑名单,不启用
+let g:ycm_filetype_blacklist = {
+	\ 'tagbar' : 1,
+	\ 'gitcommit' : 1,
+	\}
+" }}}
+
+
+" ultisnips {{{
+    let g:UltiSnipsExpandTrigger       = "<Tab>"
+    " let g:UltiSnipsJumpForwardTrigger  = "<s-CR>"
+	" let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
+    let g:UltiSnipsSnippetDirectories  = ['UltiSnips']
+    let g:UltiSnipsSnippetsDir = '~/.vim/UltiSnips'
+    " 定义存放代码片段的文件夹 .vim/UltiSnips下，使用自定义和默认的，将会的到全局，有冲突的会提示
+    " 进入对应filetype的snippets进行编辑
+    map <leader>us :UltiSnipsEdit<CR>
+    " 垂直打开 snippets 进行编辑
+    let g:UltiSnipsEditSplit="vertical"
+
+    " ctrl+j/k 进行选择
+    func! g:JInYCM()
+        if pumvisible()
+            return "\<C-n>"
+        else
+            return "\<c-j>"
+        endif
+    endfunction
+
+    func! g:KInYCM()
+        if pumvisible()
+            return "\<C-p>"
+        else
+            return "\<c-k>"
+        endif
+    endfunction
+    inoremap <c-j> <c-r>=g:JInYCM()<cr>
+    au BufEnter,BufRead * exec "inoremap <silent> " . g:UltiSnipsJumpBackwordTrigger . " <C-R>=g:KInYCM()<cr>"
+    let g:UltiSnipsJumpBackwordTrigger = "<c-k>"
+" }}}
+
+
+" delimitMate {{{
+    " for python docstring ",优化输入
+    " au FileType python let b:delimitMate_nesting_quotes = ['"']
+    " au FileType php let delimitMate_matchpairs = "(:),[:],{:}"
+    let g:delimitMate_expand_cr = 1
+    " let g:delimitMate_expand_space = 1
+    " 关闭某些类型文件的自动补全
+    "au FileType mail let b:delimitMate_autoclose = 0
+" }}}
+
+
+" closetag {{{
+    " let g:closetag_html_style=1
+    let g:closetag_filenames = '*.html,*.js,*jsx'
+" }}}
+
+" ################### 快速编码 ###################
+
+" nerdcommenter {{{
+    let g:NERDSpaceDelims=1
+    let g:NERDAltDelims_python = 1
+	let g:NERDTrimTrailingWhitespace = 1
+	let g:NERDCustomDelimiters = {'javascript': {'left': '//', 'leftAlt': '{/*', 'rightAlt': '*/}'}}
+" }}}
+
+" trailingwhitespace {{{
+   nnoremap g<space>  :FixWhitespace<CR>
+" }}}
+" easyalign {{{
+    xmap ga <Plug>(EasyAlign)
+    nmap ga <Plug>(EasyAlign)
+    if !exists('g:easy_align_delimiters')
+    let g:easy_align_delimiters = {}
+    endif
+    let g:easy_align_delimiters['#'] = { 'pattern': '#', 'ignore_groups': ['String'] }
+    " Default:
+    " If a delimiter is in a highlight group whose name matches any of the followings, it will be ignored.
+    let g:easy_align_ignore_groups = ['Comment', 'String']
+" }}}
+
+" ################### 快速移动 ###################
+
+" easymotion {{{
+    " let g:EasyMotion_smartcase = 1
+    " map <Leader><leader>h <Plug>(easymotion-linebackward)
+    " map <Leader><Leader>j <Plug>(easymotion-j)
+    " map <Leader><Leader>k <Plug>(easymotion-k)
+    " map <Leader><leader>l <Plug>(easymotion-lineforward)
+    " " 重复上一次操作, 类似repeat插件, 很强大
+    " map <Leader><leader>. <Plug>(easymotion-repeat)
+" }}}
+
+" quickscope {{{
+    let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
+    " macvim/gvim会有问题, 暂时注解
+    " let g:qs_first_occurrence_highlight_color = '#afff5f' " gui vim
+    " let g:qs_first_occurrence_highlight_color = 155       " terminal vim
+    " let g:qs_second_occurrence_highlight_color = '#5fffff'  " gui vim
+    " let g:qs_second_occurrence_highlight_color = 81         " terminal vim
+" }}}
+
+" ################### 快速选中 ###################
+
+" expandregion {{{
+    " map + <Plug>(expand_region_expand)
+    " map _ <Plug>(expand_region_shrink)
+    vmap v <Plug>(expand_region_expand)
+    vmap V <Plug>(expand_region_shrink)
+    " Extend the global default
+    if exists("*expand_region#custom_text_objects")
+        call expand_region#custom_text_objects({
+        \ 'a]' :1,
+        \ 'ab' :1,
+        \ 'aB' :1,
+        \ 'ii' :0,
+        \ 'ai' :0,
+        \ })
+    endif
+
+" }}}
+
+" multiplecursors {{{
+    let g:multi_cursor_use_default_mapping=0
+    " Default mapping
+    let g:multi_cursor_next_key='<C-m>'
+    let g:multi_cursor_prev_key='<C-p>'
+    let g:multi_cursor_skip_key='<C-x>'
+    let g:multi_cursor_quit_key='<Esc>'
+" }}}
+
+" ################### 功能相关 ###################
+
+" ctrlp ctrlpfunky{{{
+    let g:ctrlp_map = '<C-p>'
+    let g:ctrlp_cmd = 'CtrlP'
+    map <leader>f :CtrlPMRU<CR>
+    let g:ctrlp_custom_ignore = {
+        \ 'dir':  '\v[\/]\.(git|hg|svn|rvm)$',
+        \ 'file': '\v\.(exe|so|dll|zip|tar|tar.gz|pyc)$',
+        \ }
+    let g:ctrlp_working_path_mode=0
+    let g:ctrlp_match_window_bottom=1
+    let g:ctrlp_max_height=15
+    let g:ctrlp_match_window_reversed=0
+    let g:ctrlp_mruf_max=500
+    let g:ctrlp_follow_symlinks=1
+    " 如果安装了ag, 使用ag
+    " if executable('ag')
+    " " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
+    " let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+    " " ag is fast enough that CtrlP doesn't need to cache
+    " let g:ctrlp_use_caching = 0
+    " endif
+
+    " ctrlpfunky
+    " ctrlp插件1 - 不用ctag进行函数快速跳转
+    nnoremap <Leader>fu :CtrlPFunky<Cr>
+    " narrow the list down with a word under cursor
+    nnoremap <Leader>fU :execute 'CtrlPFunky ' . expand('<cword>')<Cr>
+    let g:ctrlp_funky_syntax_highlight = 1
+
+    let g:ctrlp_extensions = ['funky']
+" }}}
+
+
+" ctrlsf {{{
+    nmap \ <Plug>CtrlSFCwordPath<CR>
+    " let g:ctrlsf_position = 'below'
+    " let g:ctrlsf_winsize = '30%'
+    let g:ctrlsf_auto_close = 0
+    let g:ctrlsf_confirm_save = 0
+    " Note: cannot use <CR> or <C-m> for open
+    " Use : <sapce> or <tab>
+    let g:ctrlsf_mapping = {
+        \ "open"  : "<Space>",
+        \ "openb" : "O",
+        \ "tab"   : "t",
+        \ "tabb"  : "T",
+        \ "prevw" : "p",
+        \ "quit"  : "q",
+        \ "next"  : "<C-J>",
+        \ "prev"  : "<C-K>",
+        \ "pquit" : "q",
+        \ }
+" }}}
+
+" git.  git操作还是习惯命令行,vim里面处理简单diff编辑操作
+
+" fugitive {{{
+    " :Gdiff  :Gstatus :Gvsplit
+    nnoremap <leader>ge :Gdiff<CR>
+    " not ready to open
+    " <leader>gb maps to :Gblame<CR>
+    " <leader>gs maps to :Gstatus<CR>
+    " <leader>gd maps to :Gdiff<CR>  和现有冲突
+    " <leader>gl maps to :Glog<CR>
+    " <leader>gc maps to :Gcommit<CR>
+    " <leader>gp maps to :Git push<CR>
+" }}}
+
+" gitgutter {{{
+    " 同git diff,实时展示文件中修改的行
+    " 只是不喜欢除了行号多一列, 默认关闭,gs时打开
+    let g:gitgutter_map_keys = 0
+    let g:gitgutter_enabled = 0
+    let g:gitgutter_highlight_lines = 1
+    nnoremap <leader>gs :GitGutterToggle<CR>
+" }}}
+
+" gundo {{{
+    noremap <leader>h :GundoToggle<CR>
+" }}}
+
+" ################### 显示增强 ###################
+
+" airline {{{
+    if !exists('g:airline_symbols')
+        let g:airline_symbols = {}
+    endif
+    let g:airline_left_sep = '▶'
+    let g:airline_left_alt_sep = '❯'
+    let g:airline_right_sep = '◀'
+    let g:airline_right_alt_sep = '❮'
+    let g:airline_symbols.linenr = '¶'
+    let g:airline_symbols.branch = '⎇'
+    " 是否打开tabline
+    " let g:airline#extensions#tabline#enabled = 1
+" }}}
+
+
+
+" rainbow_parentheses {{{
+    " 不加入这行, 防止黑色括号出现, 很难识别
+    " \ ['black',       'SeaGreen3'],
+    let g:rbpt_colorpairs = [
+        \ ['brown',       'RoyalBlue3'],
+        \ ['Darkblue',    'SeaGreen3'],
+        \ ['darkgray',    'DarkOrchid3'],
+        \ ['darkgreen',   'firebrick3'],
+        \ ['darkcyan',    'RoyalBlue3'],
+        \ ['darkred',     'SeaGreen3'],
+        \ ['darkmagenta', 'DarkOrchid3'],
+        \ ['brown',       'firebrick3'],
+        \ ['gray',        'RoyalBlue3'],
+        \ ['darkmagenta', 'DarkOrchid3'],
+        \ ['Darkblue',    'firebrick3'],
+        \ ['darkgreen',   'RoyalBlue3'],
+        \ ['darkcyan',    'SeaGreen3'],
+        \ ['darkred',     'DarkOrchid3'],
+        \ ['red',         'firebrick3'],
+        \ ]
+
+    let g:rbpt_max = 16
+    let g:rbpt_loadcmd_toggle = 0
+    au VimEnter * RainbowParenthesesToggle
+    au Syntax * RainbowParenthesesLoadRound
+    au Syntax * RainbowParenthesesLoadSquare
+    au Syntax * RainbowParenthesesLoadBraces
+" }}}
+
+
+" ################### 显示增强-主题 ###################"
+
+" solarized {{{
+    let g:solarized_termtrans=1
+    let g:solarized_contrast="normal"
+    let g:solarized_visibility="normal"
+    let g:solarized_termcolors=256
+" }}}
+
+" molokai {{{
+    let g:molokai_original = 1
+    let g:rehash256 = 1
+" }}}
+
+" gruvbox {{{
+    " let g:gruvbox_invert_indent_guides = 1
+    " let g:gruvbox_invert_tabline = 1
+" }}}
+
+" ################### 快速导航 ###################
+
+" NerdTree config
+    map <C-n> :NERDTreeToggle<CR>
+    " use vim as vim.
+    autocmd StdinReadPre * let s:std_in=1
+    autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+
+    " open nerdtree auto with directory
+    autocmd StdinReadPre * let s:std_in=1
+    autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | endif
+
+    let NERDTreeIgnore=[ '\.pyc$', '\.pyo$', '\.obj$', '\.o$', '\.so$', '\.egg$', '.DS_Store', '^\.git$', '^\.hg$' ]
+    let g:NERDTreeMapOpenSplit = 's'
+    let g:NERDTreeMapOpenVSplit = 'v'
+	let g:NERDTreeWinSize=35
+
+    let NERDTreeAutoDeleteBuffer = 1
+    let NERDTreeMinimalUI = 1
+    let NERDTreeDirArrows = 1
+
+" Vim Workspace Controller
+" ctrlspace {{{
+    let g:airline_exclude_preview = 1
+    hi CtrlSpaceSelected guifg=#586e75 guibg=#eee8d5 guisp=#839496 gui=reverse,bold ctermfg=10 ctermbg=7 cterm=reverse,bold
+    hi CtrlSpaceNormal   guifg=#839496 guibg=#021B25 guisp=#839496 gui=NONE ctermfg=12 ctermbg=0 cterm=NONE
+    hi CtrlSpaceSearch   guifg=#cb4b16 guibg=NONE gui=bold ctermfg=9 ctermbg=NONE term=bold cterm=bold
+    hi CtrlSpaceStatus   guifg=#839496 guibg=#002b36 gui=reverse term=reverse cterm=reverse ctermfg=12 ctermbg=8
+" }}}
+
+
+" 标签导航
+" tagbar {{{
+    nmap <F9> :TagbarToggle<CR>
+    let g:tagbar_autofocus = 1
+    " let g:tagbar_autoshowtag = 1
+    " let g:tagbar_show_visibility = 1
+    " for ruby
+    let g:tagbar_type_ruby = {
+        \ 'kinds' : [
+            \ 'm:modules',
+            \ 'c:classes',
+            \ 'd:describes',
+            \ 'C:contexts',
+            \ 'f:methods',
+            \ 'F:singleton methods'
+        \ ]
+    \ }
+
+    " go语言的tagbar配置
+    " 1. install gotags 'go get -u github.com/jstemmer/gotags'
+    " 2. make sure `gotags` in you shell PATH, you can call check it with `which gotags`
+    " for gotags. work with tagbar
+    let g:tagbar_type_go = {
+        \ 'ctagstype' : 'go',
+        \ 'kinds'     : [
+            \ 'p:package',
+            \ 'i:imports:1',
+            \ 'c:constants',
+            \ 'v:variables',
+            \ 't:types',
+            \ 'n:interfaces',
+            \ 'w:fields',
+            \ 'e:embedded',
+            \ 'm:methods',
+            \ 'r:constructor',
+            \ 'f:functions'
+        \ ],
+        \ 'sro' : '.',
+        \ 'kind2scope' : {
+            \ 't' : 'ctype',
+            \ 'n' : 'ntype'
+        \ },
+        \ 'scope2kind' : {
+            \ 'ctype' : 't',
+            \ 'ntype' : 'n'
+        \ },
+        \ 'ctagsbin'  : 'gotags',
+        \ 'ctagsargs' : '-sort -silent'
+    \ }
+" }}}
+
+
+" ################### 语言相关 ###################
+
+" quickrun {{{
+    let g:quickrun_config = {
+    \   "_" : {
+    \       "outputter" : "message",
+    \   },
+    \}
+
+    let g:quickrun_no_default_key_mappings = 1
+    nmap <Leader>r <Plug>(quickrun)
+    map <F10> :QuickRun<CR>
+" }}}
+
+
+" pythonsyntax {{{
+    let python_highlight_all = 1
+" }}}
+
+" piv {{{
+    let g:DisableAutoPHPFolding = 1
+" }}}
+
+
+" vimgo {{{
+    let g:go_highlight_functions = 1
+    let g:go_highlight_methods = 1
+    let g:go_highlight_structs = 1
+    let g:go_highlight_operators = 1
+    let g:go_highlight_build_constraints = 1
+
+    let g:go_fmt_fail_silently = 1
+    " format with goimports instead of gofmt
+    let g:go_fmt_command = "goimports"
+    let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
+    let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['go', 'java'] }
+" }}}
+
+" markdown {{{
+    let g:vim_markdown_folding_disabled=1
+" }}}
+
+
+" javascript {{{
+    " pangloss/vim-javascript
+    " let g:html_indent_inctags = "html,body,head,tbody"
+    " let g:html_indent_script1 = "inc"
+    " let g:html_indent_style1 = "inc"
+" }}}
+
+" json {{{
+    let g:vim_json_syntax_conceal = 0
+" }}}
+
+" css {{{
+" }}}
+
+" css {{{
+    set conceallevel=1
+" }}}
+
+" ####### temp #######
+
+" beta {{{
+    " pip install yapf
+    " python code format
+    " format all file
+    autocmd FileType python nnoremap <leader>y :0,$!yapf<Cr>
+    " format select block
+    autocmd FileType python vnoremap <leader>y :!yapf<Cr>
+
+" Plug 'posva/vim-vue'
+
+    " Plug 'millermedeiros/vim-esformatter'
+    " will run esformatter after pressing <leader> followed by the 'e' and 's'
+    " keys
+    " nnoremap <silent> <leader>es :Esformatter<CR>
+    " vnoremap <silent> <leader>es :EsformatterVisual<CR>
+
+" }}}
+
+"------------------------------------------- end of configs --------------------------------------------

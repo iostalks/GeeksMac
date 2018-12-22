@@ -1,0 +1,101 @@
+# Author
+snippet author
+/**
+ * Author: Smallfly
+ * Date: `!v strftime("%Y-%m-%d")`
+ */
+endsnippet
+
+### import ###
+# import
+snippet imp "import" b
+import ${1} from '${0}';
+endsnippet
+
+# SImage
+snippet impsimg "import SImage" b
+import SImage from '@souche-f2e/SImage';
+endsnippet
+
+# PropTypes
+snippet impprop "import PropTypes" b
+import PropTypes from 'prop-types';
+endsnippet
+
+### Render ###
+# style
+snippet style
+style={styles.${0}}
+endsnippet
+
+# Image
+snippet img "<Image ..." b
+<Image style={styles.${0}} source={{ uri: ${1} }}/ >
+endsnippet
+
+#SImage
+snippet simg "<SImage ..." b
+<SImage style={styles.${0}} source={{ uri: ${1} }}/>
+endsnippet
+
+### StyleSheet ###
+snippet ali "alignItems" b
+alignItems: ${0},
+endsnippet
+
+# Component
+snippet srncomponent "Component" b
+import React from 'react';
+import { StyleSheet, View, Text } from 'react-native';
+
+class ${1:componetname} extends React.Component {
+	constructor(props) {
+		super(props);
+	}
+
+	render() {
+		return (
+			<View style={styles.container}>
+			</View>
+		);
+	}
+}
+
+const styles = StyleSheet.create({
+	container: {
+		backgroundColor: 'white',
+	}
+});
+
+export default ${2:$1};
+endsnippet
+
+# Page
+snippet srnpage "Page" b
+import React from 'react';
+class ${1:pagename} extends React.Component {
+}
+export default ${2:$1}
+endsnippet
+
+# Store
+snippet srnstore "Store" b
+endsnippet
+
+# Model
+snippet srnmodel "SRNModel define" b
+/* eslint-disable no-undef */
+import {
+	SRNModel,     // model 基类
+	Check,        // 类型检查装饰器
+	CheckType,    // 类型枚举
+	ServerName,   // 数据库映射装饰器
+	observable,
+} from '@souche-f2e/srn-framework';
+
+class ${1:modelname} extends SRNModel {
+}
+
+export default ${2:$1};
+endsnippet
+
